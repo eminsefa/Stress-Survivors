@@ -1,46 +1,49 @@
 using UnityEngine;
 
-public abstract class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
+namespace StressSurvivors
 {
-    static T s_Instance = null;
-
-    public static T Instance
+    public abstract class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
     {
-        get
+        static T s_Instance = null;
+
+        public static T Instance
         {
-            if (s_Instance == null)
+            get
             {
-                // First let's try 'Resources.FindObjectsOfTypeAll'
-                T[] objects = Resources.FindObjectsOfTypeAll<T>();
-
-                if (objects == null || objects.Length == 0)
+                if (s_Instance == null)
                 {
-                    // Failed, let's try 'Resources.LoadAll'
+                    // First let's try 'Resources.FindObjectsOfTypeAll'
+                    T[] objects = Resources.FindObjectsOfTypeAll<T>();
 
-                    //Debug.LogError($"[SingletonScriptableObject] Type:{typeof(T).FullName}");
-                    objects = Resources.LoadAll<T>(string.Empty);
-                }
+                    if (objects == null || objects.Length == 0)
+                    {
+                        // Failed, let's try 'Resources.LoadAll'
 
-                if (objects.Length > 0 && objects[0] != null)
-                {
-                    s_Instance = objects[0];
-                }
+                        //Debug.LogError($"[SingletonScriptableObject] Type:{typeof(T).FullName}");
+                        objects = Resources.LoadAll<T>(string.Empty);
+                    }
 
-                if (objects.Length > 1)
-                {
-                    Debug.LogError("[SingletonScriptableObject] You have more than 1 object of type - " + typeof(T).FullName + ". Choosing first.");
+                    if (objects.Length > 0 && objects[0] != null)
+                    {
+                        s_Instance = objects[0];
+                    }
+
+                    if (objects.Length > 1)
+                    {
+                        Debug.LogError("[SingletonScriptableObject] You have more than 1 object of type - " + typeof(T).FullName + ". Choosing first.");
+                    }
+                    else if (objects.Length == 0)
+                    {
+                        Debug.LogError("[SingletonScriptableObject] Something is wrong. Can't find the object - " + typeof(T).FullName + ". Make sure it's on the Resources folder.");
+                    }
                 }
-                else if (objects.Length == 0)
-                {
-                    Debug.LogError("[SingletonScriptableObject] Something is wrong. Can't find the object - " + typeof(T).FullName + ". Make sure it's on the Resources folder.");
-                }
+                //else
+                //{
+                //    Debug.Log("[SingletonScriptableObject] Found instance of '" + typeof(T) + "': " + s_Instance.name);
+                //}
+
+                return s_Instance;
             }
-            //else
-            //{
-            //    Debug.Log("[SingletonScriptableObject] Found instance of '" + typeof(T) + "': " + s_Instance.name);
-            //}
-
-            return s_Instance;
         }
     }
 }

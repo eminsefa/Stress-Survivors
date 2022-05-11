@@ -1,14 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+namespace StressSurvivors
 {
-    public event Action OnGameReset;
-
-    public void LevelFailed()
+    public class GameManager : Singleton<GameManager>
     {
-        OnGameReset?.Invoke();
+        public event Action OnGameReset;
+
+        public void LevelFailed()
+        {
+            OnGameReset?.Invoke();
+        }
     }
 }

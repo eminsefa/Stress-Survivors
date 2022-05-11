@@ -1,11 +1,13 @@
-using System;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+namespace StressSurvivors
 {
-    [SerializeField] protected float MoveSpeed;
-    [SerializeField] protected float StartHealth;
+    public class EnemyBase : MonoBehaviour
+    {
+        [SerializeField] protected float MoveSpeed;
+        [SerializeField] protected float StartHealth;
 
-    protected float Health;
-    protected bool  IsAlive = true;
+        protected float Health;
+        protected bool  IsAlive = true;
+    }
 }
