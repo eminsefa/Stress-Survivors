@@ -5,7 +5,7 @@ namespace StressSurvivors
 {
     public class PlayerController : Singleton<PlayerController>
     {
-        private GamePlayVariables m_GamePlayVariables => GameConfig.Instance.m_GamePlayVariables;
+        private GamePlayVariables m_GamePlayVariables => GameConfig.Instance.GamePlayVariables;
 
         private int     m_Health;
         private Vector2 m_Input;
@@ -24,12 +24,12 @@ namespace StressSurvivors
         {
             m_Health = m_GamePlayVariables.Health;
 
-            GameManager.Instance.OnGameReset += onReset;
+            GameManager.Instance.OnGameReset += OnReset;
         }
 
         private void OnDisable()
         {
-            GameManager.Instance.OnGameReset -= onReset;
+            GameManager.Instance.OnGameReset -= OnReset;
         }
 
         private void Update()
@@ -45,21 +45,21 @@ namespace StressSurvivors
             m_Rigidbody.MovePosition(pos);
         }
 
-        private void OnTriggerEnter2D(Collider2D i_Col)
+        private void OnTriggerEnter2D(Collider2D col)
         {
             m_Health--;
             if (m_Health <= 0)
             {
-                dead();
+                Dead();
             }
         }
 
-        private void dead()
+        private void Dead()
         {
             GameManager.Instance.LevelFailed();
         }
 
-        private void onReset()
+        private void OnReset()
         {
             m_Health = m_GamePlayVariables.Health;
         }

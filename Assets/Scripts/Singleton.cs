@@ -24,7 +24,7 @@ namespace StressSurvivors
                     {
                         var o = instances[i];
                         Debug.LogWarning($"There are multiple instances in the scene. Destroying {o.name}", o);
-                        Destroy(o);
+                        DestroyImmediate(o);
                     }
 
                 _instance = instances[0];

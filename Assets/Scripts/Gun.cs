@@ -9,12 +9,12 @@ namespace StressSurvivors
         private float   m_SearchRadius;
         private Vector2 m_ClosestEnemyPosition;
 
-        private AttackVariables m_AttackVariables => GameConfig.Instance.m_AttackVariables;
+        private AttackVariables m_AttackVariables => GameConfig.Instance.AttackVariables;
 
-        [SerializeField] private Rigidbody2D m_Rigidbody;
+        [SerializeField] private Rigidbody2D      m_Rigidbody;
         [SerializeField] private PlayerController m_PlayerController;
-        [SerializeField] private LayerMask   m_StressMask;
-    
+        [SerializeField] private LayerMask        m_EnemyLayer;
+
         private void OnEnable()
         {
             IsActive       = true;
@@ -24,19 +24,19 @@ namespace StressSurvivors
 
         private void Attack()
         {
-            IsActive = false;
-            m_Rigidbody.velocity    = Vector2.zero;
-        
+            IsActive             = false;
+            m_Rigidbody.velocity = Vector2.zero;
+
             if (m_ClosestEnemyPosition == Vector2.zero)
             {
-                m_ClosestEnemyPosition = findClosestEnemyPosition();
-                if (m_ClosestEnemyPosition == Vector2.zero) 
-                    m_ClosestEnemyPosition = (Vector2) m_PlayerController.transform.position + 
+                m_ClosestEnemyPosition = FindClosestEnemyPosition();
+                if (m_ClosestEnemyPosition == Vector2.zero)
+                    m_ClosestEnemyPosition = (Vector2) m_PlayerController.transform.position +
                                              new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
             }
 
-            var playerPos =(Vector2) m_PlayerController.transform.position;
-            var dir       = (m_ClosestEnemyPosition -  playerPos).normalized;
+            var playerPos = (Vector2) m_PlayerController.transform.position;
+            var dir       = (m_ClosestEnemyPosition - playerPos).normalized;
             transform.position = playerPos;
             m_Rigidbody.AddForce(dir * FireSpeed);
 
@@ -54,7 +54,7 @@ namespace StressSurvivors
                 m_Timer += Time.fixedDeltaTime;
                 if (m_Timer > Cooldown - 1)
                 {
-                    m_ClosestEnemyPosition = findClosestEnemyPosition();
+                    m_ClosestEnemyPosition = FindClosestEnemyPosition();
                     if (m_Timer > Cooldown)
                     {
                         Attack();
@@ -63,26 +63,26 @@ namespace StressSurvivors
             }
         }
 
-        private Vector2 findClosestEnemyPosition()
+        private Vector2 FindClosestEnemyPosition()
         {
             var hits = new Collider2D[16];
 
-            var hitCount = Physics2D.OverlapCircleNonAlloc(m_PlayerController.transform.position, m_SearchRadius, hits, m_StressMask);
+            var hitCount = Physics2D.OverlapCircleNonAlloc(m_PlayerController.transform.position, m_SearchRadius, hits, m_EnemyLayer);
             if (hitCount == 0)
             {
-                m_SearchRadius += m_AttackVariables.SearchRadiusIncrementValue*Time.fixedDeltaTime;
+                m_SearchRadius += m_AttackVariables.SearchRadiusIncrementValue * Time.fixedDeltaTime;
                 if (m_SearchRadius > m_AttackVariables.SearchRadiusMaxValue)
                 {
                     return Vector2.zero;
                 }
 
-                return findClosestEnemyPosition();
+                return FindClosestEnemyPosition();
             }
 
             if (hitCount == 1) return hits[0].transform.position;
 
-            var       closestDist = float.MaxValue;
-            Transform closest     = hits[0].transform;
+            var closestDist = float.MaxValue;
+            var closest     = hits[0].transform;
             for (int i = 0; i < hitCount; i++)
             {
                 var dist = Vector2.Distance(hits[i].transform.position, m_PlayerController.transform.position);

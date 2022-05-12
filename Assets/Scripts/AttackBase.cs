@@ -13,7 +13,7 @@ namespace StressSurvivors
         {
             Body.SetActive(true);
         }
-        private void OnTriggerEnter2D(Collider2D i_Col)
+        private void OnTriggerEnter2D(Collider2D col)
         {
             Body.SetActive(false);
         }

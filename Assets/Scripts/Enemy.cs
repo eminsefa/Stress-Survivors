@@ -16,7 +16,7 @@ namespace StressSurvivors
         [SerializeField] private Transform   m_Body;
 
         [Button]
-        public void SetRef()
+        public void SetRefs()
         {
             m_Rigidbody = GetComponent<Rigidbody2D>();
             m_Body      = transform.Find("Body");
@@ -24,9 +24,9 @@ namespace StressSurvivors
             m_Player    = FindObjectOfType<PlayerController>().transform;
         }
 
-        public void Spawned(Vector3 i_Position)
+        public void Spawned(Vector3 position)
         {
-            transform.position = i_Position;
+            transform.position = position;
             m_Body.gameObject.SetActive(true);
             IsAlive            = true;
             m_Collider.enabled = true;
@@ -48,14 +48,14 @@ namespace StressSurvivors
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D i_Col)
+        private void OnTriggerEnter2D(Collider2D col)
         {
             Health--;
             if (Health < 0)
-                dead();
+                Dead();
         }
 
-        private void dead()
+        private void Dead()
         {
             m_Body.gameObject.SetActive(false);
             IsAlive            = false;
