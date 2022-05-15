@@ -7,7 +7,7 @@ namespace StressSurvivors
     {
         private float   m_Timer;
         private float   m_SearchRadius;
-        private Vector2 m_ClosestEnemyPosition;
+        private Vector2 m_AttackPosition;
 
         private AttackVariables m_AttackVariables => GameConfig.Instance.AttackVariables;
 
@@ -18,34 +18,9 @@ namespace StressSurvivors
         private void OnEnable()
         {
             IsActive       = true;
-            m_SearchRadius = m_AttackVariables.SearchRadiusIncrementValue;
             Attack();
         }
-
-        private void Attack()
-        {
-            IsActive             = false;
-            m_Rigidbody.velocity = Vector2.zero;
-
-            if (m_ClosestEnemyPosition == Vector2.zero)
-            {
-                m_ClosestEnemyPosition = FindClosestEnemyPosition();
-                if (m_ClosestEnemyPosition == Vector2.zero)
-                    m_ClosestEnemyPosition = (Vector2) m_PlayerController.transform.position +
-                                             new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
-            }
-
-            var playerPos = (Vector2) m_PlayerController.transform.position;
-            var dir       = (m_ClosestEnemyPosition - playerPos).normalized;
-            transform.position = playerPos;
-            m_Rigidbody.AddForce(dir * FireSpeed);
-
-            m_SearchRadius         = 0;
-            IsActive               = true;
-            m_Timer                = 0;
-            m_ClosestEnemyPosition = Vector2.zero;
-            base.Attack();
-        }
+        
 
         private void FixedUpdate()
         {
@@ -54,7 +29,7 @@ namespace StressSurvivors
                 m_Timer += Time.fixedDeltaTime;
                 if (m_Timer > Cooldown - 1)
                 {
-                    m_ClosestEnemyPosition = FindClosestEnemyPosition();
+                    m_AttackPosition = FindClosestEnemyPosition();
                     if (m_Timer > Cooldown)
                     {
                         Attack();
@@ -62,16 +37,42 @@ namespace StressSurvivors
                 }
             }
         }
-
-        private Vector2 FindClosestEnemyPosition()
+        private void Attack()
         {
+            IsActive             = false;
+            m_Rigidbody.velocity = Vector2.zero;
+
+            if (m_AttackPosition == Vector2.zero)
+            {
+                m_AttackPosition = FindClosestEnemyPosition();
+                if (m_AttackPosition == Vector2.zero)
+                {
+                    var random =new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
+                    m_AttackPosition = (Vector2) m_PlayerController.transform.position + random;
+                }
+            }
+
+            var playerPos = (Vector2) m_PlayerController.transform.position;
+            var dir       = (m_AttackPosition - playerPos).normalized;
+            transform.position = playerPos;
+            m_Rigidbody.AddForce(dir * FireSpeed);
+
+            m_SearchRadius         = 0;
+            IsActive               = true;
+            m_Timer                = 0;
+            m_AttackPosition = Vector2.zero;
+            base.Attack();
+        }
+        
+        private Vector2 FindClosestEnemyPosition()
+        {       
             var hits = new Collider2D[16];
 
             var hitCount = Physics2D.OverlapCircleNonAlloc(m_PlayerController.transform.position, m_SearchRadius, hits, m_EnemyLayer);
             if (hitCount == 0)
             {
-                m_SearchRadius += m_AttackVariables.SearchRadiusIncrementValue * Time.fixedDeltaTime;
-                if (m_SearchRadius > m_AttackVariables.SearchRadiusMaxValue)
+                m_SearchRadius += m_AttackVariables.SearchClosest.SearchRadiusIncrementValue * Time.fixedDeltaTime;
+                if (m_SearchRadius > ScreenManager.ScreenRadius)
                 {
                     return Vector2.zero;
                 }

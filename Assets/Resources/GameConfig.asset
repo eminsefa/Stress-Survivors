@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf403a00d1234406852b6ae1ce58bce, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  m_GamePlayVariables:
+  GamePlayVariables:
     MoveSpeed: 0.1
-    Health: 5
-  m_AttackVariables:
-    GunVariables:
-      Cooldown: 2
-      FireSpeed: 500
-    SearchRadiusIncrementValue: 3
-    SearchRadiusMaxValue: 10
+    Health: 10
+  AttackVariables:
+    SearchClosest:
+      SearchRadiusIncrementValue: 0.1
+      SearchRadiusMaxValue: 5
+  SpawnVariables:
+    SpawnCooldown: 5

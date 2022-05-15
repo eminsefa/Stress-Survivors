@@ -8,7 +8,6 @@ namespace StressSurvivors
     {
         public GamePlayVariables GamePlayVariables;
         public AttackVariables   AttackVariables;
-        public SpawnVariables    SpawnVariables;
     }
 
     [Serializable]
@@ -21,13 +20,34 @@ namespace StressSurvivors
     [Serializable]
     public class AttackVariables
     {
-        public float SearchRadiusIncrementValue;
-        public float SearchRadiusMaxValue;
+        public SearchClosest SearchClosest;
     }
 
     [Serializable]
-    public class SpawnVariables
+    public class SearchClosest
     {
-        public float SpawnCooldown;
+        public float SearchRadiusIncrementValue;
+    }
+
+    [Serializable]
+    public class SpawnData
+    {
+        public SpawnType[] SpawnType;
+    }
+    [Serializable]
+    public class SpawnType
+    {
+        public float      Cooldown;
+        public int        SpawnCount;
+        public ESpawnType SpawnTypeEnum;
+    }
+
+    public enum ESpawnType
+    {
+        Horizontal,
+        DoubleHorizontal,
+        Vertical,
+        DoubleVertical,
+        Radius,
     }
 }

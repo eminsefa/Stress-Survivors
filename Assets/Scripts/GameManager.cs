@@ -4,7 +4,7 @@ namespace StressSurvivors
 {
     public class GameManager : Singleton<GameManager>
     {
-        public event Action OnGameReset;
+        public static event Action OnGameReset;
 
         public void LevelFailed()
         {

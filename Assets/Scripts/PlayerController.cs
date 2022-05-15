@@ -11,25 +11,26 @@ namespace StressSurvivors
         private Vector2 m_Input;
 
         [SerializeField] private FloatingJoystick m_Joystick;
-        [SerializeField] private Rigidbody2D m_Rigidbody;
-        [SerializeField] private Gun        m_Gun;
-    
+        [SerializeField] private Rigidbody2D      m_Rigidbody;
+        [SerializeField] private Gun              m_Gun;
+
         [Button]
         private void SetRef()
         {
             m_Joystick  = FindObjectOfType<FloatingJoystick>();
             m_Rigidbody = GetComponent<Rigidbody2D>();
         }
+
         private void Start()
         {
             m_Health = m_GamePlayVariables.Health;
 
-            GameManager.Instance.OnGameReset += OnReset;
+            GameManager.OnGameReset += OnReset;
         }
 
         private void OnDisable()
         {
-            GameManager.Instance.OnGameReset -= OnReset;
+            GameManager.OnGameReset -= OnReset;
         }
 
         private void Update()
@@ -41,7 +42,6 @@ namespace StressSurvivors
         {
             var pos = (Vector2) m_Rigidbody.position;
             pos += m_Input * m_GamePlayVariables.MoveSpeed;
-
             m_Rigidbody.MovePosition(pos);
         }
 
