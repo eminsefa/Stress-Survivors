@@ -5,7 +5,7 @@ namespace StressSurvivors
 {
     public class PlayerController : Singleton<PlayerController>
     {
-        private GamePlayVariables m_GamePlayVariables => GameConfig.Instance.GamePlayVariables;
+        private PlayerVariables PlayerVariables => GameConfig.Instance.PlayerVariables;
 
         private int     m_Health;
         private Vector2 m_Input;
@@ -23,7 +23,7 @@ namespace StressSurvivors
 
         private void Start()
         {
-            m_Health = m_GamePlayVariables.Health;
+            m_Health = PlayerVariables.Health;
 
             GameManager.OnGameReset += OnReset;
         }
@@ -41,7 +41,7 @@ namespace StressSurvivors
         private void FixedUpdate()
         {
             var pos = (Vector2) m_Rigidbody.position;
-            pos += m_Input * m_GamePlayVariables.MoveSpeed;
+            pos += m_Input * PlayerVariables.MoveSpeed;
             m_Rigidbody.MovePosition(pos);
         }
 
@@ -61,7 +61,7 @@ namespace StressSurvivors
 
         private void OnReset()
         {
-            m_Health = m_GamePlayVariables.Health;
+            m_Health = PlayerVariables.Health;
         }
     }
 }

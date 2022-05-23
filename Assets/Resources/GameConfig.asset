@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf403a00d1234406852b6ae1ce58bce, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  GamePlayVariables:
+  PlayerVariables:
     MoveSpeed: 0.1
     Health: 10
   AttackVariables:
     SearchClosest:
       SearchRadiusIncrementValue: 0.1
-      SearchRadiusMaxValue: 5
-  SpawnVariables:
-    SpawnCooldown: 5

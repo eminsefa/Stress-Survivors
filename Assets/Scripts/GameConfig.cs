@@ -6,12 +6,12 @@ namespace StressSurvivors
     [CreateAssetMenu(fileName = "GameConfig")]
     public class GameConfig : SingletonScriptableObject<GameConfig>
     {
-        public GamePlayVariables GamePlayVariables;
+        public PlayerVariables PlayerVariables;
         public AttackVariables   AttackVariables;
     }
 
     [Serializable]
-    public class GamePlayVariables
+    public class PlayerVariables
     {
         public float MoveSpeed;
         public int   Health;
@@ -19,6 +19,11 @@ namespace StressSurvivors
 
     [Serializable]
     public class AttackVariables
+    {
+        public SearchClosest SearchClosest;
+    }
+    [Serializable]
+    public class EnemyTypes
     {
         public SearchClosest SearchClosest;
     }
@@ -45,9 +50,6 @@ namespace StressSurvivors
     public enum ESpawnType
     {
         Horizontal,
-        DoubleHorizontal,
-        Vertical,
-        DoubleVertical,
-        Radius,
+        DoubleHorizontal
     }
 }
