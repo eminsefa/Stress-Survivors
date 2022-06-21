@@ -14,7 +14,10 @@ namespace StressSurvivors
     public class PlayerVariables
     {
         public float MoveSpeed;
+        public float MoveThreshold;
         public int   Health;
+        public float MinWalkAnimationSpeed;
+        public float MaxWalkAnimationSpeed;
     }
 
     [Serializable]
