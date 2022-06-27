@@ -25,11 +25,8 @@ namespace StressSurvivors
             var index = 0;
             for (int i = 0; i < m_Gems.Length; i++)
             {
-                if (rand < m_Gems[i].GemData.MinPossibility)
-                {
-                    index = i - 1;
-                    break;
-                }
+                if (rand > m_Gems[i].GemData.MinPossibility) index = i;
+                else break;
             }
 
             if (index < 0) return;

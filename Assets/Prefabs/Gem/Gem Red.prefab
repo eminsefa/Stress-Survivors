@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6130222739055722145}
   - component: {fileID: 5522808629734261875}
   m_Layer: 8
-  m_Name: Gem Yellow
+  m_Name: Gem Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8714929fdebf4cdf8eab5c3f0efbf26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GemData>k__BackingField: {fileID: 11400000, guid: a3407c5d7158f41d48455dc1ab9cb7da, type: 2}
+  <GemData>k__BackingField: {fileID: 11400000, guid: 439e31d0c162b44febbb6831eb911f39, type: 2}
 --- !u!58 &5522808629734261875
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -6,9 +6,11 @@ namespace StressSurvivors
     public class ExperienceManager : Singleton<ExperienceManager>
     {
         public static event Action OnLevelUp;
+        public static event Action<float> OnExperienceGained;
 
-        private int m_Experience;
-        private int m_CurrentLevel;
+        private Tweener m_TwExperienceIncrease;
+        private int     m_Experience;
+        private int     m_CurrentLevel;
 
         private ExperienceVariables m_ExperienceVariables => GameConfig.Instance.PlayerVariables.ExperienceVariables;
 
@@ -24,21 +26,24 @@ namespace StressSurvivors
 
         private void OnGemCollected(GemData gemData)
         {
-            var value = gemData.ExpValue;
-            DOTween.To(() => m_Experience, x => m_Experience = x, value, value * m_ExperienceVariables.GainExperienceDuration)
-                   .SetRelative(true)
-                   .OnUpdate(CheckForLevelUp);
+            if (m_TwExperienceIncrease.IsActive()) m_TwExperienceIncrease.Kill();
+            var value    = gemData.ExpValue;
+            var newValue = m_Experience + value;
+            m_TwExperienceIncrease = DOTween.To(() => m_Experience, x => m_Experience = x, newValue, value * m_ExperienceVariables.GainExperienceDuration)
+                                            .OnUpdate(ExperienceGained)
+                                            .OnKill(() => m_Experience = newValue);
         }
 
-        private void CheckForLevelUp()
+        private void ExperienceGained()
         {
-            return;
             var nextLevelLimit = m_ExperienceVariables.ExperienceLevels[m_CurrentLevel];
-            if (m_Experience >= nextLevelLimit)
-            {
-                m_Experience -= nextLevelLimit;
-                LevelUp();
-            }
+            OnExperienceGained?.Invoke((float) m_Experience/nextLevelLimit);
+            
+            if (m_Experience < nextLevelLimit) return;
+            if (m_TwExperienceIncrease.IsActive()) m_TwExperienceIncrease.Kill();
+            m_Experience -= nextLevelLimit;
+            OnExperienceGained?.Invoke((float) m_Experience /nextLevelLimit);
+            LevelUp();
         }
 
         private void LevelUp()

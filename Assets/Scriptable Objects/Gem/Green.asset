@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e753065b1a947cf9b3e1b9d9d38cbcd, type: 3}
-  m_Name: Flying Monster
+  m_Script: {fileID: 11500000, guid: f98333babc16b46879a54569c005008b, type: 3}
+  m_Name: Green
   m_EditorClassIdentifier: 
-  MoveSpeed: 0.05
-  Health: 0
-  WalkAnimationSpeed: 2
+  ExpValue: 10
+  GemType: 2
+  Icon: {fileID: 0}
+  MinPossibility: 50
